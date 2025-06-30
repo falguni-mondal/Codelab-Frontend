@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+:root{
+
+    --primary-color: #010409
+    --secondary-color: #0D1117
+    --third-color: #151B23
+    --minor-color: #262C36
+}
+
+*::-webkit-scrollbar{
+    /* display: none; */
+    background: #151B23;
+    width: 10px;
+}
+*::-webkit-scrollbar-thumb{
+    background: #262C36;
+    border-radius: 50px;
+}
+.prime-bg{
+    background: #010409;
+}
+.sec-bg{
+    background: #0D1117;
+}
+.third-bg{
+    background: #151B23;
+}
+.minor-bg{
+    background: #262C36;
+    transition: all 0.3s ease;
+}
+.minor-bg:hover{
+    background: #2a313d;
+}
+.service-menu{
+    background-image: url("./assets/auth_bg.jpg");
+    background-size: 120%;
+    background-position: 50% 80%;
+    background-repeat: no-repeat;
+}
