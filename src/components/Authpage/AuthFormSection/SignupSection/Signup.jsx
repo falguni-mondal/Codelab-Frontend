@@ -13,6 +13,8 @@ const Signup = () => {
     const [passErr, setPassErr] = useState(null);
     const [unameErr, setUnameErr] = useState(null);
 
+    const baseUrl = import.meta.env.VITE_TEST_API;
+
     const inputs = [
         {
             name: "email",
@@ -28,12 +30,13 @@ const Signup = () => {
         {
             name: "username",
             type: "text",
-            msg: "Username may only contain alphanumeric characters or single hyphens, and cannot begin or end with a hyphen.",
+            msg: "Username should be atleast 6 characters, may only contain alphanumeric characters or single hyphen, cannot begin or end with a hyphen, and can not begin with number.",
             ref: usernameRef
         }
     ]
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    const unameRegex = /^(?!\d)(?=[A-Za-z0-9-]{6,}$)(?!.*--)(?!.*[^A-Za-z0-9-])(?=(?:.*[A-Za-z]))^(?!.*-.*-)(?!^-)(?!.*-$)[A-Za-z0-9-]+$/;
     let timer = null;
 
     const passwordChecker = () => {
@@ -49,32 +52,77 @@ const Signup = () => {
 
         timer = setTimeout(() => {
 
-            setPassErr(passwordRegex.test(value) ? "" : "Invalid Password!");
+            setPassErr(passwordRegex.test(value) ? "Valid Password!" : "Invalid Password!");
 
         }, 1500)
 
     }
 
     const usernameChecker = () => {
+        const value = usernameRef.current.value;
+
+        if (value.length === 0) {
+            setUnameErr(null);
+            return clearTimeout(timer);
+        }
+
+        clearTimeout(timer);
+
+        timer = setTimeout(async () => {
+            if (!unameRegex.test(value)) {
+                setUnameErr("Invalid Username!");
+                return;
+            }
+            else {
+                try {
+                    const res = await axios.post(`${baseUrl}/api/user/check/username`, { username: value });
+                    console.log(res);
+                    setUnameErr(res.data.available ? "Available!" : "Unavailable!");
+                } catch (err) {
+                    toast.error("Network Error!", {
+                        position: "top-right",
+                        autoClose: 5000,
+                        hideProgressBar: true,
+                        closeOnClick: true,
+                        pauseOnHover: true,
+                        draggable: true,
+                        progress: undefined,
+                        theme: "dark",
+                        transition: Bounce,
+                    });
+                    return;
+                }
+            }
+
+        }, 1000);
 
     }
 
     const submitHandler = async (e) => {
         e.preventDefault();
-        if(!passwordRegex.test(passwordRef.current.value)){
-            console.log("Triggered");
-            return ;
+        if (!passwordRegex.test(passwordRef.current.value) || !unameRegex.test(usernameRef.current.value) || emailRef.current.value.trim() === "") {
+            toast.error("Please enter valid credentials!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+            return;
         }
         const data = {
-            email : emailRef.current.value,
-            password : passwordRef.current.value,
-            username : usernameRef.current.value
+            email: emailRef.current.value,
+            password: passwordRef.current.value,
+            username: usernameRef.current.value
         }
 
-        const baseUrl = import.meta.env.VITE_TEST_API;
         try {
             const res = await axios.post(`${baseUrl}/api/user/create`, data);
-            console.log(res);
+            console.log(res.data);
             toast.success('Signup Successfull!', {
                 position: "top-right",
                 autoClose: 5000,
@@ -116,14 +164,14 @@ const Signup = () => {
                                 <input onChange={(e) => inp.name === "password" ? passwordChecker() : inp.name === "username" ? usernameChecker() : undefined} ref={inp.ref} className='placeholder:capitalize outline-0 border border-gray-700 rounded-md py-1.5 px-2' id={`signup-${inp.name}-input`} type={`${inp.type}`} placeholder={`${inp.name}`} />
                                 {
                                     inp.name === "password" ?
-                                        <p className={`input-message ${passErr ? "text-red-600" : "text-gray-600"} text-[0.8rem]`}>{passErr ? passErr : inp.msg}</p>
+                                        <p className={`input-message ${passErr ? passErr === "Valid Password!" ? "text-green-600" : "text-red-600" : "text-gray-600"} text-[0.8rem]`}>{passErr ? passErr : inp.msg}</p>
                                         : inp.name === "username" &&
-                                        <p className={`input-message ${unameErr ? "text-red-600" : "text-gray-600"} text-[0.8rem]`}>{unameErr ? unameErr : inp.msg}</p>
+                                        <p className={`input-message ${unameErr ? unameErr === "Available!" ? "text-green-600" : "text-red-600" : "text-gray-600"} text-[0.8rem]`}>{unameErr ? unameErr : inp.msg}</p>
                                 }
                             </div>
                         ))
                     }
-                    <button className='w-full rounded-md bg-[#dedede] py-1.5 text-[black] font-medium mt-2'>Continue</button>
+                    <button className='w-full rounded-md bg-[#dedede] py-1.5 text-[black] font-medium mt-2 cursor-pointer'>Continue</button>
                 </form>
             </div>
         </div>
