@@ -4,7 +4,7 @@ import axios from "axios";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Bounce, toast, Zoom } from 'react-toastify';
 
-const Signup = () => {
+const Signup = ({setLoading}) => {
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -24,7 +24,7 @@ const Signup = () => {
         {
             name: "password",
             type: "password",
-            msg: "Password should be at least 15 characters OR at least 8 characters including a number and a lowercase letter.",
+            msg: "Password should be at least 8 characters including at least an uppercase, a lowercase, and a number.",
             ref: passwordRef
         },
         {
@@ -100,7 +100,9 @@ const Signup = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        setLoading(prev => !prev);
         if (!passwordRegex.test(passwordRef.current.value) || !unameRegex.test(usernameRef.current.value) || emailRef.current.value.trim() === "") {
+            setLoading(prev => !prev);
             toast.error("Please enter valid credentials!", {
                 position: "top-right",
                 autoClose: 5000,
@@ -122,6 +124,12 @@ const Signup = () => {
 
         try {
             const res = await axios.post(`${baseUrl}/api/user/create`, data);
+            setLoading(prev => !prev);
+            emailRef.current.value = "";
+            passwordRef.current.value = "";
+            usernameRef.current.value = "";
+            setPassErr(null);
+            setUnameErr(null);
             console.log(res.data);
             toast.success('Signup Successfull!', {
                 position: "top-right",
@@ -135,6 +143,7 @@ const Signup = () => {
                 transition: Zoom,
             });
         } catch (err) {
+            setLoading(prev => !prev);
             toast.error(`${err.response.data}`, {
                 position: "top-right",
                 autoClose: 5000,

@@ -18,7 +18,7 @@ const Signin = () => {
         {
             name : "password",
             type : "password",
-            msg : "Password should be at least 15 characters OR at least 8 characters including a number and a uppercase letter.",
+            msg : "Password should be at least 8 characters including at least an uppercase, a lowercase, and a number.",
             ref : passwordRef
         }
     ]
