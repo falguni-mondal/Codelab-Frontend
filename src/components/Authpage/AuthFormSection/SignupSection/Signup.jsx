@@ -3,8 +3,11 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Bounce, toast, Zoom } from 'react-toastify';
+import { passwordChecker, usernameChecker } from '../../../../utils/validator';
+import { passwordRegex, unameRegex } from '../../../../utils/regex';
+import { baseUrl } from '../../../../utils/keys';
 
-const Signup = ({setLoading}) => {
+const Signup = ({ setLoading }) => {
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -12,8 +15,6 @@ const Signup = ({setLoading}) => {
 
     const [passErr, setPassErr] = useState(null);
     const [unameErr, setUnameErr] = useState(null);
-
-    const baseUrl = import.meta.env.VITE_TEST_API;
 
     const inputs = [
         {
@@ -24,84 +25,27 @@ const Signup = ({setLoading}) => {
         {
             name: "password",
             type: "password",
-            msg: "Password should be at least 8 characters including at least an uppercase, a lowercase, and a number.",
+            msg: "Password should be at least 8 characters including at least an uppercase, a lowercase, a symbol, and a number.",
             ref: passwordRef
         },
         {
             name: "username",
             type: "text",
-            msg: "Username should be atleast 6 characters, may only contain alphanumeric characters or single hyphen, cannot begin or end with a hyphen, and can not begin with number.",
+            msg: "Username should be atleast 6 characters, including alphanumeric characters or single hyphen, cannot begin or end with a hyphen, and can not begin with number.",
             ref: usernameRef
         }
     ]
 
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
-    const unameRegex = /^(?!\d)(?=[A-Za-z0-9-]{6,}$)(?!.*--)(?!.*[^A-Za-z0-9-])(?=(?:.*[A-Za-z]))^(?!.*-.*-)(?!^-)(?!.*-$)[A-Za-z0-9-]+$/;
-    let timer = null;
-
-    const passwordChecker = () => {
-
-        const value = passwordRef.current.value
-
-        if (value.length === 0) {
-            setPassErr(null);
-            return clearTimeout(timer);
-        }
-
-        clearTimeout(timer);
-
-        timer = setTimeout(() => {
-
-            setPassErr(passwordRegex.test(value) ? "Valid Password!" : "Invalid Password!");
-
-        }, 1500)
-
-    }
-
-    const usernameChecker = () => {
-        const value = usernameRef.current.value;
-
-        if (value.length === 0) {
-            setUnameErr(null);
-            return clearTimeout(timer);
-        }
-
-        clearTimeout(timer);
-
-        timer = setTimeout(async () => {
-            if (!unameRegex.test(value)) {
-                setUnameErr("Invalid Username!");
-                return;
-            }
-            else {
-                try {
-                    const res = await axios.post(`${baseUrl}/api/user/check/username`, { username: value });
-                    console.log(res);
-                    setUnameErr(res.data.available ? "Available!" : "Unavailable!");
-                } catch (err) {
-                    toast.error("Network Error!", {
-                        position: "top-right",
-                        autoClose: 5000,
-                        hideProgressBar: true,
-                        closeOnClick: true,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                        transition: Bounce,
-                    });
-                    return;
-                }
-            }
-
-        }, 1000);
-
-    }
 
     const submitHandler = async (e) => {
         e.preventDefault();
         setLoading(prev => !prev);
-        if (!passwordRegex.test(passwordRef.current.value) || !unameRegex.test(usernameRef.current.value) || emailRef.current.value.trim() === "") {
+
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
+        const username = usernameRef.current.value;
+
+        if (!passwordRegex.test(password) || !unameRegex.test(username) || emailRef.current.value.trim() === "") {
             setLoading(prev => !prev);
             toast.error("Please enter valid credentials!", {
                 position: "top-right",
@@ -116,21 +60,19 @@ const Signup = ({setLoading}) => {
             });
             return;
         }
-        const data = {
-            email: emailRef.current.value,
-            password: passwordRef.current.value,
-            username: usernameRef.current.value
-        }
 
         try {
-            const res = await axios.post(`${baseUrl}/api/user/create`, data);
+            const res = await axios.post(`${baseUrl}/api/user/create`, {email, password, username});
+
             setLoading(prev => !prev);
             emailRef.current.value = "";
             passwordRef.current.value = "";
             usernameRef.current.value = "";
             setPassErr(null);
             setUnameErr(null);
+
             console.log(res.data);
+
             toast.success('Signup Successfull!', {
                 position: "top-right",
                 autoClose: 5000,
@@ -170,7 +112,7 @@ const Signup = ({setLoading}) => {
                         inputs.map((inp) => (
                             <div key={`signup-${inp.name}`} className="input-container flex flex-col">
                                 <label htmlFor={`${inp.name}-input`} className="input-label capitalize">{inp.name}</label>
-                                <input onChange={(e) => inp.name === "password" ? passwordChecker() : inp.name === "username" ? usernameChecker() : undefined} ref={inp.ref} className='placeholder:capitalize outline-0 border border-gray-700 rounded-md py-1.5 px-2' id={`signup-${inp.name}-input`} type={`${inp.type}`} placeholder={`${inp.name}`} />
+                                <input onChange={(e) => inp.name === "password" ? passwordChecker(e.target.value, setPassErr) : inp.name === "username" ? usernameChecker(e.target.value, setUnameErr) : undefined} ref={inp.ref} className='placeholder:capitalize outline-0 border border-gray-700 rounded-md py-1.5 px-2' id={`signup-${inp.name}-input`} type={`${inp.type}`} placeholder={`${inp.name}`} />
                                 {
                                     inp.name === "password" ?
                                         <p className={`input-message ${passErr ? passErr === "Valid Password!" ? "text-green-600" : "text-red-600" : "text-gray-600"} text-[0.8rem]`}>{passErr ? passErr : inp.msg}</p>

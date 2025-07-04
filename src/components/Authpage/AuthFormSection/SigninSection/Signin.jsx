@@ -1,35 +1,94 @@
-import { useRef } from "react";
+import axios from "axios";
+import { useRef, useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from 'react-router-dom';
+import { Bounce, toast, Zoom } from "react-toastify";
+import {passwordChecker} from "../../../../utils/validator";
+import { passwordRegex } from "../../../../utils/regex";
 
 
-const Signin = () => {
+const Signin = ({ setLoading }) => {
 
     const idRef = useRef();
     const passwordRef = useRef();
 
-        const inputs = [
+    const [passErr, setPassErr] = useState(null);
+
+
+    const inputs = [
         {
-            name : "email / username",
-            type : "text",
-            ref : idRef
+            name: "email / username",
+            type: "text",
+            ref: idRef
         },
         {
-            name : "password",
-            type : "password",
-            msg : "Password should be at least 8 characters including at least an uppercase, a lowercase, and a number.",
-            ref : passwordRef
+            name: "password",
+            type: "password",
+            msg: "Password should be at least 8 characters including at least an uppercase, a lowercase, a symbol, and a number.",
+            ref: passwordRef
         }
     ]
 
+
+    //FORM SUBMISSION
+    const baseUrl = import.meta.env.VITE_TEST_API;
     const submitHandler = async (e) => {
         e.preventDefault();
-        const baseUrl = import.meta.env.VITE_TEST_API;
+        setLoading(prev => !prev);
 
-        const res = await axios.post(`${baseUrl}/api/user/signin`, {idRef, passwordRef});
-        console.log(res);
-        
+        const id = idRef.current.value;
+        const password = passwordRef.current.value;
+
+        if (!passwordRegex.test(password) || id.trim() === "") {
+            setLoading(prev => !prev);
+            toast.error("Please enter valid credentials!", {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+            return;
+        }
+
+        try {
+
+            const res = await axios.post(`${baseUrl}/api/user/signin`, { id, password });
+
+            console.log(res.data);
+            setLoading(prev => !prev);
+            toast.success('SigIn Successfull!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Zoom,
+            });
+
+        } catch (err) {
+            setLoading(prev => !prev);
+            toast.error(`${err.response.data}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+        }
+
     }
 
     return (
@@ -44,17 +103,17 @@ const Signin = () => {
                         inputs.map((inp) => (
                             <div key={`signin-${inp.name}`} className="input-container flex flex-col">
                                 <label htmlFor={`${inp.name}-input`} className="input-label capitalize">{inp.name}</label>
-                                <input ref={inp.ref} className='placeholder:capitalize outline-0 border border-gray-700 rounded-md py-1.5 px-2' id={`signin-${inp.name}-input`} type={`${inp.type}`} placeholder={`${inp.name}`} />
+                                <input onChange={(e) => inp.name === "password" && passwordChecker(e.target.value, setPassErr)} ref={inp.ref} className='placeholder:capitalize outline-0 border border-gray-700 rounded-md py-1.5 px-2' id={`signin-${inp.name}-input`} type={`${inp.type}`} placeholder={`${inp.name}`} />
                                 {
                                     inp.msg &&
-                                    <p className='input-message text-gray-600 text-[0.8rem]'>{inp.msg}</p>
+                                    <p className={`input-message ${passErr ? passErr === "Valid Password!" ? "text-green-600" : "text-red-600" : "text-gray-600"} text-[0.8rem]`}>{passErr ? passErr : inp.msg}</p>
                                 }
                             </div>
                         ))
                     }
                     <button className='w-full rounded-md bg-[#dedede] py-1.5 text-[black] font-medium mt-2'>Sign In</button>
                 </form>
-                <button className='google-sign-btn flex items-center justify-center gap-1 w-full py-1.5 mt-3 text-[black] font-semibold bg-[#dedede] rounded-md'>Sign in with <FcGoogle/></button>
+                <button className='google-sign-btn flex items-center justify-center gap-1 w-full py-1.5 mt-3 text-[black] font-semibold bg-[#dedede] rounded-md'>Sign in with <FcGoogle /></button>
             </div>
         </div>
     )
