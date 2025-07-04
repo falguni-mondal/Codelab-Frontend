@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import axios from "axios";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Bounce, toast, Zoom } from 'react-toastify';
-import { passwordChecker, usernameChecker } from '../../../../utils/validator';
-import { passwordRegex, unameRegex } from '../../../../utils/regex';
-import { baseUrl } from '../../../../utils/keys';
+import { passwordChecker, usernameChecker } from '../../../../utils/functions/validator';
+import { passwordRegex, unameRegex } from '../../../../utils/functions/regex';
+import { baseUrl } from '../../../../utils/functions/keys';
 
 const Signup = ({ setLoading }) => {
 

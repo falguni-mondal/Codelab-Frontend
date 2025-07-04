@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import ServiceSection from './ServiceSection/ServiceSection'
 import AuthFormSection from './AuthFormSection/AuthFormSection'
 import { useParams } from 'react-router-dom'
-import Loading from '../../utils/Loading'
+import Loading from '../../utils/components/Loading'
 
 const Authpage = () => {
 

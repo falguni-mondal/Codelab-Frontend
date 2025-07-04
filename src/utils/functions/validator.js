@@ -1,7 +1,7 @@
 import { toast } from "react-toastify";
-import { passwordRegex, unameRegex } from "./regex";
 import axios from "axios";
 import { baseUrl } from "./keys";
+import { passwordRegex, unameRegex } from "./regex";
 
 let timer = null;
 const passwordChecker = (value, setPassErr) => {

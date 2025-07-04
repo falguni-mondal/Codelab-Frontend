@@ -4,8 +4,8 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from 'react-router-dom';
 import { Bounce, toast, Zoom } from "react-toastify";
-import {passwordChecker} from "../../../../utils/validator";
-import { passwordRegex } from "../../../../utils/regex";
+import {passwordChecker} from "../../../../utils/functions/validator";
+import { passwordRegex } from "../../../../utils/functions/regex";
 
 
 const Signin = ({ setLoading }) => {
