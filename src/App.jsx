@@ -1,8 +1,19 @@
-import { ToastContainer } from 'react-toastify'
-import Navbar from './components/Navbar/Navbar'
-import Router from './routes/Router'
+import { ToastContainer } from 'react-toastify';
+import Navbar from './components/Navbar/Navbar';
+import Router from './routes/Router';
+import { useDispatch } from 'react-redux';
+import { fetchUser } from './redux/features/authSlice';
+import { useEffect } from 'react';
 
 const App = () => {
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, [dispatch])
+
+
   return (
     <div className='min-h-screen min-w-screen flex flex-col items-center w-full text-[#dedede] prime-bg'>
       <Navbar />

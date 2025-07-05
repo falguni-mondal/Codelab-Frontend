@@ -5,9 +5,9 @@ const checkAuth = async () => {
 
   try {
     const res = await axios.get(`${baseUrl}/api/user/auth`);
-    return true;
+    return res.data;
   } catch (err) {
-    return false;
+    throw new Error(err?.response?.data);
   }
 
 };

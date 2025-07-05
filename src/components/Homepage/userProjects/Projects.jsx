@@ -10,7 +10,7 @@ const Projects = () => {
         <div className="projects px-10 sec-bg w-[25%] min-h-[90vh] overflow-y-auto pt-14 border-r border-gray-700 sticky top-[0px]">
             <div className="header w-full flex justify-between items-center">
                 <h2 className='text-[0.95rem] font-medium'>Your Projects</h2>
-                <Link className='flex gap-1 py-1 px-1.5 border border-zinc-400 bg-green-700 text-[0.8rem] font-medium rounded-md'><HiOutlineFolderAdd className='text-[1.3rem]' /> New</Link>
+                <Link className='flex gap-1 py-1 px-1.5 border border-zinc-400 bg-green-700 hover:bg-green-600 transition-all duration-300 text-[0.8rem] font-medium rounded-md'><HiOutlineFolderAdd className='text-[1.3rem]' /> New</Link>
             </div>
             <div className="project-search-bar w-full">
                 <input className='third-bg rounded-md px-5 py-[5px] text-[0.9rem] w-full mt-2 outline-0 border border-gray-700' placeholder='Find a project...' type="text" />
