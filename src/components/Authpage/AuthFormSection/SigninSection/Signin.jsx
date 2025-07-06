@@ -6,9 +6,12 @@ import { Link } from 'react-router-dom';
 import { Bounce, toast, Zoom } from "react-toastify";
 import {passwordChecker} from "../../../../utils/functions/validator";
 import { passwordRegex } from "../../../../utils/functions/regex";
+import { useDispatch } from "react-redux";
+import { fetchUser } from "../../../../redux/features/authSlice";
 
 
 const Signin = ({ setLoading }) => {
+    const dispatch = useDispatch();
 
     const idRef = useRef();
     const passwordRef = useRef();
@@ -58,9 +61,10 @@ const Signin = ({ setLoading }) => {
 
         try {
 
-            const res = await axios.post(`${baseUrl}/api/user/signin`, { id, password });
+            const res = await axios.post(`${baseUrl}/api/user/login`, { id, password }, { withCredentials: true });
 
-            console.log(res.data);
+            dispatch(fetchUser());
+            
             setLoading(prev => !prev);
             toast.success('SigIn Successfull!', {
                 position: "top-right",

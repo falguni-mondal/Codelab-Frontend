@@ -6,8 +6,12 @@ import { Bounce, toast, Zoom } from 'react-toastify';
 import { passwordChecker, usernameChecker } from '../../../../utils/functions/validator';
 import { passwordRegex, unameRegex } from '../../../../utils/functions/regex';
 import { baseUrl } from '../../../../utils/functions/keys';
+import { useDispatch } from 'react-redux';
+import { fetchUser } from '../../../../redux/features/authSlice';
 
 const Signup = ({ setLoading }) => {
+
+    const dispatch = useDispatch();
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -62,7 +66,7 @@ const Signup = ({ setLoading }) => {
         }
 
         try {
-            const res = await axios.post(`${baseUrl}/api/user/create`, {email, password, username});
+            const res = await axios.post(`${baseUrl}/api/user/create`, { email, password, username }, { withCredentials: true });
 
             setLoading(prev => !prev);
             emailRef.current.value = "";
@@ -71,7 +75,7 @@ const Signup = ({ setLoading }) => {
             setPassErr(null);
             setUnameErr(null);
 
-            console.log(res.data);
+            dispatch(fetchUser());
 
             toast.success('Signup Successfull!', {
                 position: "top-right",
