@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { Bounce, toast, Zoom } from 'react-toastify';
@@ -12,6 +12,7 @@ import { fetchUser } from '../../../../redux/features/authSlice';
 const Signup = ({ setLoading }) => {
 
     const dispatch = useDispatch();
+    const navigate = useNavigate()
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -67,15 +68,16 @@ const Signup = ({ setLoading }) => {
 
         try {
             const res = await axios.post(`${baseUrl}/api/user/create`, { email, password, username }, { withCredentials: true });
-
+            
             setLoading(prev => !prev);
             emailRef.current.value = "";
             passwordRef.current.value = "";
             usernameRef.current.value = "";
             setPassErr(null);
             setUnameErr(null);
-
+            
             dispatch(fetchUser());
+            navigate("/user/profile");
 
             toast.success('Signup Successfull!', {
                 position: "top-right",

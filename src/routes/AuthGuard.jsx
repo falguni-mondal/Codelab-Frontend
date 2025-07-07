@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { Navigate } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 import Loading from '../utils/components/Loading';
 import { useEffect } from 'react';
 import { fetchUser } from '../redux/features/authSlice';
 
-const Protected = ({ children }) => {
+const AuthGuard = () => {
     const dispatch = useDispatch();
     const {user, status} = useSelector((state) => state.auth);
 
@@ -18,11 +18,10 @@ const Protected = ({ children }) => {
         return <Loading />
     }
     if(!user || status === "failed"){
-        return <Navigate to={"/auth/signin"} />
+        return <Navigate to="/auth/signin" replace />;
     }
 
-    return children;
-
+    return <Outlet />;
 }
 
-export default Protected
+export default AuthGuard

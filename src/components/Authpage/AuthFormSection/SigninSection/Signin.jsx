@@ -2,16 +2,18 @@ import axios from "axios";
 import { useRef, useState } from "react";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Bounce, toast, Zoom } from "react-toastify";
 import {passwordChecker} from "../../../../utils/functions/validator";
 import { passwordRegex } from "../../../../utils/functions/regex";
 import { useDispatch } from "react-redux";
 import { fetchUser } from "../../../../redux/features/authSlice";
+import { baseUrl } from "../../../../utils/functions/keys";
 
 
 const Signin = ({ setLoading }) => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const idRef = useRef();
     const passwordRef = useRef();
@@ -35,7 +37,6 @@ const Signin = ({ setLoading }) => {
 
 
     //FORM SUBMISSION
-    const baseUrl = import.meta.env.VITE_TEST_API;
     const submitHandler = async (e) => {
         e.preventDefault();
         setLoading(prev => !prev);
@@ -64,6 +65,7 @@ const Signin = ({ setLoading }) => {
             const res = await axios.post(`${baseUrl}/api/user/login`, { id, password }, { withCredentials: true });
 
             dispatch(fetchUser());
+            navigate("/user/profile");
             
             setLoading(prev => !prev);
             toast.success('SigIn Successfull!', {
