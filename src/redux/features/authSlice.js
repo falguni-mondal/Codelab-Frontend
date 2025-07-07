@@ -10,7 +10,7 @@ export const fetchUser = createAsyncThunk('auth/fetchUser', async () => {
 })
 
 export const logoutUser = createAsyncThunk('auth/logoutUser', async () => {
-    await axios.post(`${baseUrl}/api/user/logout`, { withCredentials: true });
+    await axios.post(`${baseUrl}/api/user/logout`, null, { withCredentials: true });
 })
 
 
@@ -24,7 +24,7 @@ const authSlice = createSlice({
     extraReducers : (builder) => {
         builder
         .addCase(fetchUser.pending, (state) => {
-            state.status = "pending"
+            state.status = "loading"
         })
         .addCase(fetchUser.fulfilled, (state, action) => {
             state.status = "success";
