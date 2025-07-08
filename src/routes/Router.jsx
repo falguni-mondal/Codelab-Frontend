@@ -4,6 +4,7 @@ import Authpage from '../components/Authpage/Authpage';
 import Profile from "../components/ProfilePage/Profile";
 import AuthGuard from "./AuthGuard";
 import GuestGuard from "./GuestGuard";
+import EmailVerify from "../components/Authpage/AuthFormSection/SignupSection/EmailVerify";
 
 const Router = () => {
 
@@ -20,6 +21,9 @@ const Router = () => {
             <Route element={<AuthGuard />}>
                 <Route path="/user/profile" element={<Profile />} />
             </Route>
+
+            {/* VERIFICATION */}
+            <Route path="/user/verify" element={<EmailVerify />} />
         </Routes>
     )
 }

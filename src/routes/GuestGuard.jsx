@@ -1,11 +1,30 @@
-import { useSelector } from "react-redux"
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux"
 import { Navigate, Outlet } from "react-router-dom";
+import { fetchUser } from "../redux/features/authSlice";
+import Loading from "../utils/components/Loading";
 
 const GuestGuard = () => {
+    const dispatch = useDispatch();
+    const {user, status} = useSelector((state) => state.auth);
 
-    const user = useSelector((state) => state.auth.user);
+    useEffect(() => {
+        if(status === "idle"){
+            dispatch(fetchUser());
+        }
+    }, [dispatch, status])
 
-    return user ? <Navigate to="/user/profile" replace /> : <Outlet/>;
+    if(status === "loading" || status === "idle"){
+        return <Loading />
+    }
+    if(user){
+        if(user.isVerified){
+            return <Navigate to="/user/profile" replace />;
+        }
+        return <Navigate to="/user/verify" />;
+    }
+
+    return <Outlet />
 }
 
 export default GuestGuard

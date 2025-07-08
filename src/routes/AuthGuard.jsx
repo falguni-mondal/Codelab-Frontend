@@ -6,19 +6,22 @@ import { fetchUser } from '../redux/features/authSlice';
 
 const AuthGuard = () => {
     const dispatch = useDispatch();
-    const {user, status} = useSelector((state) => state.auth);
+    const { user, status } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        if(status === "idle"){
+        if (status === "idle") {
             dispatch(fetchUser());
         }
     }, [dispatch, status])
 
-    if(status === "loading" || status === "idle"){
+    if (status === "loading" || status === "idle") {
         return <Loading />
     }
-    if(!user || status === "failed"){
+    if (!user || status === "failed") {
         return <Navigate to="/auth/signin" replace />;
+    }
+    if (user && !user.isVerified) {
+        return <Navigate to="/user/verify" replace />;
     }
 
     return <Outlet />;

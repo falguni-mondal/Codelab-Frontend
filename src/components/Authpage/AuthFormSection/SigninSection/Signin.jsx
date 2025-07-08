@@ -65,6 +65,7 @@ const Signin = ({ setLoading }) => {
             const res = await axios.post(`${baseUrl}/api/user/login`, { id, password }, { withCredentials: true });
 
             dispatch(fetchUser());
+
             navigate("/user/profile");
             
             setLoading(prev => !prev);

@@ -12,7 +12,7 @@ import { fetchUser } from '../../../../redux/features/authSlice';
 const Signup = ({ setLoading }) => {
 
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
 
     const emailRef = useRef();
     const passwordRef = useRef();
@@ -77,7 +77,11 @@ const Signup = ({ setLoading }) => {
             setUnameErr(null);
             
             dispatch(fetchUser());
-            navigate("/user/profile");
+
+            res.data.isVerified ? 
+            navigate("/user/profile")
+            :
+            navigate("/user/verification");
 
             toast.success('Signup Successfull!', {
                 position: "top-right",

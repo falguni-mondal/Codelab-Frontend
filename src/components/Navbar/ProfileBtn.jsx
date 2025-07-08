@@ -11,7 +11,7 @@ const ProfileBtn = ({ name, image=null, bg=null }) => {
                         image ?
                         <img className='w-full h-full object-cover' src={image} alt={`${name}_image`} />
                         :
-                        <p>{name.charAt(0).toUpperCase()}</p>
+                        <p className='font-medium mix-blend-plus-lighter'>{name.charAt(0).toUpperCase()}</p>
                     }
                 </div>
             </Link>
