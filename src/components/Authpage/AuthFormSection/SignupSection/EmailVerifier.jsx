@@ -1,5 +1,5 @@
-import { useEffect } from 'react'
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '../../../../redux/features/authSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -10,21 +10,20 @@ const EmailVerifier = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { token } = useParams();
-    const user = useSelector((state) => state.auth.user);
+    const [loading, setLoading] = useState(false);
+    const [response, setResponse] = useState("");
 
     useEffect(() => {
-        if (!user) {
-            return navigate("/auth/signup");
-        }
-        if (user && user.isVerified) {
-            return navigate("user/profile");
-        }
         emailVerifier();
-    }, [user])
+    }, [])
 
     const emailVerifier = async () => {
         try {
+            setLoading(true);
+            setResponse("");
             const res = await axios.post(`${baseUrl}/api/user/verify/match`, { token }, { withCredentials: true });
+            setLoading(false);
+            setResponse(res.data);
             toast.success(`${res.data}`, {
                 position: "top-right",
                 autoClose: 5000,
@@ -37,7 +36,10 @@ const EmailVerifier = () => {
                 transition: Zoom,
             });
             dispatch(fetchUser());
+            navigate("/user/profile")
         } catch (err) {
+            setLoading(false);
+            setResponse("Something went wrong!");
             toast.error(`${err.response.data}`, {
                 position: "top-right",
                 autoClose: 5000,
@@ -53,7 +55,9 @@ const EmailVerifier = () => {
     }
 
     return (
-        <div>EmailVerifier</div>
+        <div className='w-full h-full flex flex-col items-center'>
+            <p>{loading ? "Wait for a moment!" : response}</p>
+        </div>
     )
 }
 

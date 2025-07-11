@@ -69,7 +69,7 @@ const Signin = ({ setLoading }) => {
             navigate("/user/profile");
             
             setLoading(prev => !prev);
-            toast.success('SigIn Successfull!', {
+            toast.success('SignIn Successfull!', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: true,

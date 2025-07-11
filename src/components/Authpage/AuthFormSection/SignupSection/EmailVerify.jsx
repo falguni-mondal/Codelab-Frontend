@@ -30,7 +30,8 @@ const EmailVerify = () => {
 
     const verificationLinkSender = async () => {
         try {
-            await axios.get(`${baseUrl}/api/user/verify/send`, { withCredentials: true });
+            const res = await axios.get(`${baseUrl}/api/user/verify/send`, { withCredentials: true });
+            console.log(res.data)
         } catch (err) {
             toast.error(`${err.response.data}`, {
                 position: "top-right",

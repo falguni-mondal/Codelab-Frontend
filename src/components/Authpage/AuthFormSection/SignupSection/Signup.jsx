@@ -80,7 +80,7 @@ const Signup = ({ setLoading }) => {
 
             navigate("/user/profile")
 
-            toast.success('Signup Successfull!', {
+            toast.success('SignUp Successfull!', {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: true,
