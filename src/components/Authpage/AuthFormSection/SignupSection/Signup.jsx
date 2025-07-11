@@ -78,10 +78,7 @@ const Signup = ({ setLoading }) => {
             
             dispatch(fetchUser());
 
-            res.data.isVerified ? 
             navigate("/user/profile")
-            :
-            navigate("/user/verification");
 
             toast.success('Signup Successfull!', {
                 position: "top-right",

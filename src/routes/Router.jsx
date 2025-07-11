@@ -5,6 +5,7 @@ import Profile from "../components/ProfilePage/Profile";
 import AuthGuard from "./AuthGuard";
 import GuestGuard from "./GuestGuard";
 import EmailVerify from "../components/Authpage/AuthFormSection/SignupSection/EmailVerify";
+import EmailVerifier from "../components/Authpage/AuthFormSection/SignupSection/EmailVerifier";
 
 const Router = () => {
 
@@ -24,6 +25,7 @@ const Router = () => {
 
             {/* VERIFICATION */}
             <Route path="/user/verify" element={<EmailVerify />} />
+            <Route path="/user/verify/:token" element={<EmailVerifier />} />
         </Routes>
     )
 }

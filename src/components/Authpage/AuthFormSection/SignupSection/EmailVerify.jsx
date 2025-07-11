@@ -2,9 +2,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import Logo from '../../../../utils/components/Logo';
 import axios from 'axios';
 import { baseUrl } from '../../../../utils/functions/keys';
-import { logoutUser } from '../../../../redux/features/authSlice';
+import { fetchUser, logoutUser } from '../../../../redux/features/authSlice';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
+import { Bounce, toast } from 'react-toastify';
 
 const EmailVerify = () => {
     const dispatch = useDispatch();
@@ -18,13 +19,32 @@ const EmailVerify = () => {
     }
 
     useEffect(() => {
-        if(!user){
+        if (!user) {
             return navigate("/auth/signup");
         }
         if (user && user.isVerified) {
             return navigate("/user/profile");
         }
+        verificationLinkSender();
     }, [user])
+
+    const verificationLinkSender = async () => {
+        try {
+            await axios.get(`${baseUrl}/api/user/verify/send`, { withCredentials: true });
+        } catch (err) {
+            toast.error(`${err.response.data}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: true,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                transition: Bounce,
+            });
+        }
+    }
 
     return (
         user &&
@@ -38,6 +58,7 @@ const EmailVerify = () => {
                 In case of false credentials
                 <button onClick={reSignupHandler} className='w-[6rem] py-1.5 rounded minor-bg ml-2 text-sm cursor-pointer'>Go Back</button>
             </div>
+            <button onClick={verificationLinkSender} className='px-4 py-1.5 rounded bg-blue-800 hover:bg-blue-900 transition-all duration-300 mt-5 text-sm cursor-pointer'>Re-send verification link</button>
         </div>
     )
 }
