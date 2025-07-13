@@ -12,10 +12,17 @@ const EmailVerifier = () => {
     const { token } = useParams();
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState("");
+    const user = useSelector((state) => state.auth.user)
 
     useEffect(() => {
+        if(!user){
+            return navigate("/auth/signup");
+        }
+        if(user && user.isVerified){
+            return navigate("/user/profile");
+        }
         emailVerifier();
-    }, [])
+    }, [user])
 
     const emailVerifier = async () => {
         try {
@@ -39,7 +46,7 @@ const EmailVerifier = () => {
             navigate("/user/profile")
         } catch (err) {
             setLoading(false);
-            setResponse("Something went wrong!");
+            setResponse(`${err.response.data}`);
             toast.error(`${err.response.data}`, {
                 position: "top-right",
                 autoClose: 5000,
@@ -55,8 +62,8 @@ const EmailVerifier = () => {
     }
 
     return (
-        <div className='w-full h-full flex flex-col items-center'>
-            <p>{loading ? "Wait for a moment!" : response}</p>
+        <div className='w-full pt-[35vh] flex flex-col items-center'>
+            <p className='text-[2rem] text-zinc-400'>{loading ? "Wait for a moment!" : response}</p>
         </div>
     )
 }
