@@ -6,7 +6,7 @@ const ProfileBtn = ({ name, image=null, bg=null }) => {
         <div>
             <Link to="/user/profile" className='flex gap-1.5 items-center'>
             <p>{name}</p>
-                <div id="user-profile-image" className={`w-[1.8rem] h-[1.8rem] rounded-full bg-[${bg}] flex justify-center items-center`}  style={{background : `${bg}`}}>
+                <div id="user-profile-image" className={`w-[1.8rem] h-[1.8rem] rounded-full flex justify-center items-center`}  style={{background : `${bg}`}}>
                     {
                         image ?
                         <img className='w-full h-full object-cover' src={image} alt={`${name}_image`} />

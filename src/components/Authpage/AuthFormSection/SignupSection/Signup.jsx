@@ -78,7 +78,7 @@ const Signup = ({ setLoading }) => {
             
             dispatch(fetchUser());
 
-            navigate("/user/profile")
+            navigate("/user/profile");
 
             toast.success('SignUp Successfull!', {
                 position: "top-right",

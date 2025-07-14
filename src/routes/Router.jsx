@@ -6,6 +6,7 @@ import AuthGuard from "./AuthGuard";
 import GuestGuard from "./GuestGuard";
 import EmailVerify from "../components/Authpage/AuthFormSection/SignupSection/EmailVerify";
 import EmailVerifier from "../components/Authpage/AuthFormSection/SignupSection/EmailVerifier";
+import BasicGuard from "./BasicGuard";
 
 const Router = () => {
 
@@ -16,6 +17,11 @@ const Router = () => {
             {/* GUEST ONLY */}
             <Route element={<GuestGuard />}>
                 <Route path="/auth/:option" element={<Authpage />} />
+            </Route>
+
+
+            {/* PRIVATE */}
+            <Route element={<BasicGuard />}>
             </Route>
 
             {/* PROTECTED */}
