@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUser } from '../../../../redux/features/authSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { baseUrl } from '../../../../utils/functions/keys';
 import { Bounce, toast, Zoom } from 'react-toastify';
+import { fetchUser } from '../../redux/features/authSlice';
+import { baseUrl } from '../../utils/functions/keys';
 
 const EmailVerifier = () => {
     const dispatch = useDispatch();

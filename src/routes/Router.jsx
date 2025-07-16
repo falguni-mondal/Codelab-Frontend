@@ -2,11 +2,11 @@ import { Route, Routes } from "react-router-dom";
 import Homepage from "../components/Homepage/Homepage";
 import Authpage from '../components/Authpage/Authpage';
 import Profile from "../components/ProfilePage/Profile";
-import AuthGuard from "./AuthGuard";
-import GuestGuard from "./GuestGuard";
-import EmailVerify from "../components/Authpage/AuthFormSection/SignupSection/EmailVerify";
-import EmailVerifier from "../components/Authpage/AuthFormSection/SignupSection/EmailVerifier";
-import BasicGuard from "./BasicGuard";
+import AuthGuard from "../components/guards/AuthGuard";
+import GuestGuard from "../components/guards/GuestGuard";
+import BasicGuard from "../components/guards/BasicGuard";
+import EmailVerify from "../components/verification/EmailVerify";
+import EmailVerifier from "../components/verification/EmailVerifier";
 
 const Router = () => {
 

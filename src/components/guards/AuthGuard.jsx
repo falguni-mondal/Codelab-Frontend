@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { Navigate, Outlet } from 'react-router-dom';
-import Loading from '../utils/components/Loading';
 import { useEffect } from 'react';
-import { fetchUser } from '../redux/features/authSlice';
+import { fetchUser } from '../../redux/features/authSlice';
+import Loading from '../../utils/components/Loading';
 
 const AuthGuard = () => {
     const dispatch = useDispatch();

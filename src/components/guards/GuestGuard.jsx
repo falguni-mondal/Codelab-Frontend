@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux"
 import { Navigate, Outlet } from "react-router-dom";
-import { fetchUser } from "../redux/features/authSlice";
-import Loading from "../utils/components/Loading";
+import { fetchUser } from "../../redux/features/authSlice";
+import Loading from "../../utils/components/Loading";
 
 const GuestGuard = () => {
     const dispatch = useDispatch();

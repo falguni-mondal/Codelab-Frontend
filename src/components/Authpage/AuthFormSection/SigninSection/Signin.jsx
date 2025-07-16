@@ -66,7 +66,7 @@ const Signin = ({ setLoading }) => {
 
             dispatch(fetchUser());
 
-            navigate("/user/profile");
+            navigate(-2);
             
             setLoading(prev => !prev);
             toast.success('SignIn Successfull!', {

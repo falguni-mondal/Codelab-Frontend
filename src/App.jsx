@@ -15,7 +15,7 @@ const App = () => {
 
 
   return (
-    <div className='min-h-screen min-w-screen flex flex-col items-center w-full text-[#dedede] prime-bg'>
+    <div className='h-full w-full flex flex-col items-center text-[#dedede] prime-bg'>
       <Navbar />
       <Router />
       <ToastContainer
