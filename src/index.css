@@ -8,6 +8,15 @@
     --minor-color: #262C36
 }
 
+html, body{
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+}
+#root{
+    height: 100%;
+}
+
 *::-webkit-scrollbar{
     /* display: none; */
     background: #151B23;

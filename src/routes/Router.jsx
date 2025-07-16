@@ -7,6 +7,7 @@ import GuestGuard from "../components/guards/GuestGuard";
 import BasicGuard from "../components/guards/BasicGuard";
 import EmailVerify from "../components/verification/EmailVerify";
 import EmailVerifier from "../components/verification/EmailVerifier";
+import PageErr from "../utils/components/PageErr";
 
 const Router = () => {
 
@@ -32,6 +33,9 @@ const Router = () => {
             {/* VERIFICATION */}
             <Route path="/user/verify" element={<EmailVerify />} />
             <Route path="/user/verify/:token" element={<EmailVerifier />} />
+
+            <Route path="/*" element={<PageErr />} />
+            
         </Routes>
     )
 }

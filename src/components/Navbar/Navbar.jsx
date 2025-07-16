@@ -6,12 +6,15 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileBtn from './ProfileBtn';
 import Logo from '../../utils/components/Logo';
+import ProfileMenu from './ProfileMenu';
+import { useState } from 'react';
 
 
 
 const Navbar = () => {
 
     const user = useSelector((state) => state.auth.user);
+    const [revealMenu, setRevealMenu] = useState(false);
 
     return (
         <div className='w-full h-[10vh] flex justify-between items-center px-10 py-4 border-b-[1px] border-gray-700 prime-bg'>
@@ -28,10 +31,11 @@ const Navbar = () => {
                 </button>
                 |
                 {
-                    user ? <ProfileBtn name={user.username} image={user.image} bg={user.background} />
+                    user ? <ProfileBtn name={user.username} image={user.image} bg={user.background} setRevealMenu={setRevealMenu} />
                         :
                         <LoginBtn />
                 }
+                <ProfileMenu revealMenu={revealMenu} setRevealMenu={setRevealMenu}/>
             </div>
         </div>
     )
