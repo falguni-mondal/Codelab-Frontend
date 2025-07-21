@@ -68,17 +68,16 @@ const Signup = ({ setLoading }) => {
 
         try {
             const res = await axios.post(`${baseUrl}/api/user/create`, { email, password, username }, { withCredentials: true });
-            
+
             setLoading(prev => !prev);
             emailRef.current.value = "";
             passwordRef.current.value = "";
             usernameRef.current.value = "";
             setPassErr(null);
             setUnameErr(null);
-            
-            dispatch(fetchUser());
 
-            navigate(-2);
+            dispatch(fetchUser());
+            navigate("/user/verify");
 
             toast.success('SignUp Successfull!', {
                 position: "top-right",
@@ -86,7 +85,6 @@ const Signup = ({ setLoading }) => {
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
-                draggable: true,
                 progress: undefined,
                 theme: "dark",
                 transition: Zoom,
@@ -99,7 +97,6 @@ const Signup = ({ setLoading }) => {
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
-                draggable: true,
                 progress: undefined,
                 theme: "dark",
                 transition: Bounce,

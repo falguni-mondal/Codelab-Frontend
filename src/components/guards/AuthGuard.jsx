@@ -1,27 +1,23 @@
-import { useDispatch, useSelector } from 'react-redux'
-import { Navigate, Outlet } from 'react-router-dom';
+import { useSelector } from 'react-redux'
+import { Outlet, useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
-import { fetchUser } from '../../redux/features/authSlice';
 import Loading from '../../utils/components/Loading';
 
 const AuthGuard = () => {
-    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { user, status } = useSelector((state) => state.auth);
 
     useEffect(() => {
-        if (status === "idle") {
-            dispatch(fetchUser());
+        if (status === "failed" || (!user && status === "success")) {
+            return navigate("/auth/signin");
         }
-    }, [dispatch, status])
+        if(user && !user.isVerified){
+            return navigate("/user/verify");
+        }
+    }, [navigate, user, status])
 
     if (status === "loading" || status === "idle") {
         return <Loading />
-    }
-    if (!user || status === "failed") {
-        return <Navigate to="/auth/signin" replace />;
-    }
-    if (user && !user.isVerified) {
-        return <Navigate to="/user/verify" replace />;
     }
 
     return <Outlet />;

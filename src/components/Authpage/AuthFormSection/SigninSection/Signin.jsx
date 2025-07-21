@@ -4,7 +4,7 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from 'react-router-dom';
 import { Bounce, toast, Zoom } from "react-toastify";
-import {passwordChecker} from "../../../../utils/functions/validator";
+import { passwordChecker } from "../../../../utils/functions/validator";
 import { passwordRegex } from "../../../../utils/functions/regex";
 import { useDispatch } from "react-redux";
 import { fetchUser } from "../../../../redux/features/authSlice";
@@ -61,13 +61,10 @@ const Signin = ({ setLoading }) => {
         }
 
         try {
-
             const res = await axios.post(`${baseUrl}/api/user/login`, { id, password }, { withCredentials: true });
-
             dispatch(fetchUser());
+            navigate("/");
 
-            navigate(-2);
-            
             setLoading(prev => !prev);
             toast.success('SignIn Successfull!', {
                 position: "top-right",
@@ -75,7 +72,6 @@ const Signin = ({ setLoading }) => {
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
-                draggable: true,
                 progress: undefined,
                 theme: "dark",
                 transition: Zoom,
@@ -89,7 +85,6 @@ const Signin = ({ setLoading }) => {
                 hideProgressBar: true,
                 closeOnClick: true,
                 pauseOnHover: true,
-                draggable: true,
                 progress: undefined,
                 theme: "dark",
                 transition: Bounce,

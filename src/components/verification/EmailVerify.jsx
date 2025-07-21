@@ -23,7 +23,7 @@ const EmailVerify = () => {
             return navigate("/auth/signup");
         }
         if (user && user.isVerified) {
-            return navigate("/user/profile");
+            return navigate(`/user/${user.id}/profile`);
         }
         verificationLinkSender();
     }, [user])
@@ -31,7 +31,6 @@ const EmailVerify = () => {
     const verificationLinkSender = async () => {
         try {
             const res = await axios.get(`${baseUrl}/api/user/verify/send`, { withCredentials: true });
-            console.log(res.data)
         } catch (err) {
             toast.error(`${err.response.data}`, {
                 position: "top-right",

@@ -36,7 +36,6 @@ const usernameChecker = (value, setUnameErr) => {
         const res = await axios.post(`${baseUrl}/api/user/check/username`, {
           username: value,
         });
-        console.log(res);
         setUnameErr(res.data.available ? "Available!" : "Unavailable!");
       } catch (err) {
         toast.error("Network Error!", {

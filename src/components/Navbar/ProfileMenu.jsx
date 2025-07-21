@@ -11,12 +11,13 @@ import { HiOutlineUserGroup } from "react-icons/hi2";
 import { LuUserRoundCheck } from "react-icons/lu";
 import { LuSettings } from "react-icons/lu";
 import { PiSignOut } from "react-icons/pi";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ProfileMenu = ({revealMenu, setRevealMenu}) => {
 
     const user = useSelector((state) => state.auth.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const profileOptions = [
         {
@@ -63,6 +64,7 @@ const ProfileMenu = ({revealMenu, setRevealMenu}) => {
 
     const logoutHandler = () => {
         dispatch(logoutUser());
+        navigate("/");
     }
 
     const clickHandler = (e) => {
@@ -93,7 +95,7 @@ const ProfileMenu = ({revealMenu, setRevealMenu}) => {
                 <ul className="profile-menu-list text-gray-300 text-[0.9rem]">
                     {
                         profileOptions.map(({ title, link, icon: Icon }) => (
-                            <li className='py-2'>
+                            <li key={`${title}-list`} className='py-2'>
                                 <Link className='profile-menu-option flex items-center gap-1.5 capitalize' to={link}>
                                     <Icon className={`text-[1.1rem]`} />
                                     {title}

@@ -12,17 +12,23 @@ const EmailVerifier = () => {
     const { token } = useParams();
     const [loading, setLoading] = useState(false);
     const [response, setResponse] = useState("");
-    const user = useSelector((state) => state.auth.user)
+    const {status, user} = useSelector((state) => state.auth)
 
     useEffect(() => {
-        if(!user){
+        if(status === "idle" || status === "loading"){
+            return setLoading(true);
+        }
+        else{
+            setLoading(false);
+        }
+        if(status === "failed" || !user){
             return navigate("/auth/signup");
         }
         if(user && user.isVerified){
-            return navigate("/user/profile");
+            return navigate(`/user/${user.id}/profile`);
         }
         emailVerifier();
-    }, [user])
+    }, [status, user])
 
     const emailVerifier = async () => {
         try {
@@ -43,7 +49,8 @@ const EmailVerifier = () => {
                 transition: Zoom,
             });
             dispatch(fetchUser());
-            navigate("/user/profile")
+            user &&
+            navigate(`/user/${user.id}/profile`);
         } catch (err) {
             setLoading(false);
             setResponse(`${err.response.data}`);

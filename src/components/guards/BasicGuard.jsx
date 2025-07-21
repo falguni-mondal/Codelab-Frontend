@@ -8,16 +8,16 @@ const BasicGuard = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (status === "failed") {
+        if (status === "failed" || !user) {
             navigate("/auth/signin");
         }
-    }, [status])
+    }, [user, status, navigate])
 
-    if(status === "ideal" || status === "loading"){
+    if(status === "idle" || status === "loading"){
         return <Loading/>
     }
     
-    return <Outlet user={user} />
+    return <Outlet />
 
 }
 

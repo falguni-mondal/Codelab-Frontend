@@ -27,7 +27,7 @@ const Router = () => {
 
             {/* PROTECTED */}
             <Route element={<AuthGuard />}>
-                <Route path="/user/profile" element={<Profile />} />
+                <Route path="/user/:id/profile" element={<Profile />} />
             </Route>
 
             {/* VERIFICATION */}

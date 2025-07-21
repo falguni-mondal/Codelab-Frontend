@@ -19,7 +19,7 @@ const GuestGuard = () => {
     }
     if(user){
         if(user.isVerified){
-            return <Navigate to="/user/profile" replace />;
+            return <Navigate to={`/user/${user.id}/profile`} replace />;
         }
         return <Navigate to="/user/verify" />;
     }
