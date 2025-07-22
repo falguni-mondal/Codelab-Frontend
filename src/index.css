@@ -48,3 +48,6 @@ html, body{
     background-position: 50% 80%;
     background-repeat: no-repeat;
 }
+.signup-form-outer::-webkit-scrollbar{
+    width: 7px;
+}

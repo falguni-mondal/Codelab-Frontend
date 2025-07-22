@@ -88,8 +88,8 @@ const ProfileMenu = ({revealMenu, setRevealMenu}) => {
                         }
                     </div>
                     <div className="user-dets">
-                        <p className='text-[0.9rem] font-semibold'>{`${user.username}`}</p>
-                        <p className='text-[0.9rem] text-zinc-400'>{`${user.email}`}</p>
+                        <p className='text-[0.9rem] font-semibold'>{`${user.name}`}</p>
+                        <p className='text-[0.9rem] font-semibold text-zinc-400'>{`${user.username}`}</p>
                     </div>
                 </div>
                 <ul className="profile-menu-list text-gray-300 text-[0.9rem]">
