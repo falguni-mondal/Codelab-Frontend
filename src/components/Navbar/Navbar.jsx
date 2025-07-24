@@ -31,7 +31,7 @@ const Navbar = () => {
                 </button>
                 |
                 {
-                    user ? <ProfileBtn name={user.username} image={user.image} bg={user.background} setRevealMenu={setRevealMenu} />
+                    user ? <ProfileBtn uname={user.username} image={user.image} bg={user.background} setRevealMenu={setRevealMenu} />
                         :
                         <LoginBtn />
                 }

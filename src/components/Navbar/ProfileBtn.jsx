@@ -1,14 +1,17 @@
-const ProfileBtn = ({ name, image = null, bg = null, setRevealMenu }) => {
+import { userAvatar } from "../../utils/functions/avatarGenerator"
+
+const ProfileBtn = ({ uname, image = null, bg, setRevealMenu }) => {
 
     return (
         <div onClick={() => setRevealMenu(prev => !prev)} className='flex gap-1.5 items-center cursor-pointer'>
-            <p>{name}</p>
-            <div id="user-profile-image" className={`w-[1.8rem] h-[1.8rem] rounded-full flex justify-center items-center`} style={{ background: `${bg}` }}>
+            <p>{uname}</p>
+            <div id="user-profile-image" className={`w-[1.8rem] h-[1.8rem] rounded-full flex justify-center items-center overflow-hidden`}>
                 {
                     image ?
-                        <img className='w-full h-full object-cover' src={image} alt={`${name}_image`} />
+                        <img className='w-full h-full object-cover' src={image} alt={`${uname}_image`} />
                         :
-                        <p className='font-medium mix-blend-plus-lighter'>{name.charAt(0).toUpperCase()}</p>
+                        <img className="w-full h-full object-cover" src={(userAvatar(uname))} />
+
                 }
             </div>
         </div>

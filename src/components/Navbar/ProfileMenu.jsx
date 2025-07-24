@@ -12,6 +12,7 @@ import { LuUserRoundCheck } from "react-icons/lu";
 import { LuSettings } from "react-icons/lu";
 import { PiSignOut } from "react-icons/pi";
 import { Link, useNavigate } from 'react-router-dom';
+import { userAvatar } from '../../utils/functions/avatarGenerator';
 
 const ProfileMenu = ({revealMenu, setRevealMenu}) => {
 
@@ -78,13 +79,11 @@ const ProfileMenu = ({revealMenu, setRevealMenu}) => {
         <div onClick={clickHandler} className={`${revealMenu ? "" : "hidden"} w-full h-full fixed top-0 right-0 z-[10] bg-[#b9ccff11] pr-[10px] flex justify-end`} id="profile-menu-bg">
             <div className='h-fit max-h-full w-[300px] rounded-xl prime-bg border-gray-600 border p-4' id='profile-menu-container'>
                 <div className="user-basic-dets flex items-center gap-3 pb-4 mb-3 border-b border-b-gray-600">
-                    <div className="user-dp w-[3rem] h-[3rem] rounded-full shrink-0">
+                    <div className="user-dp w-[3rem] h-[3rem] rounded-full overflow-hidden shrink-0">
                         {
-                            user.image ? <img className='w-full h-full object-cover rounded-full' src={user.image} alt={`${user.username}_dp`} />
+                            user.image ? <img className='w-full h-full object-cover' src={user.image} alt={`${user.username}_dp`} />
                                 :
-                                <div className='w-full h-full rounded-full flex justify-center items-center' style={{ background: `${user.background}` }}>
-                                    <p className='opacity-85 font-bold'>{user.username.charAt(0).toUpperCase()}</p>
-                                </div>
+                                <img className="w-full h-full object-cover" src={(userAvatar(user.username))} />
                         }
                     </div>
                     <div className="user-dets">
