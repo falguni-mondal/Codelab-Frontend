@@ -17,8 +17,22 @@ const UserDetsFrom = ({ user, setFormReveal }) => {
             name: "email",
             type: "email",
             defValue: user?.email,
-
-        }
+        },
+        {
+            name: "website",
+            type: "website",
+            defValue: user?.website,
+        },
+        {
+            name: "linkedin",
+            type: "linkedin",
+            defValue: user?.linkedin,
+        },
+        {
+            name: "github",
+            type: "github",
+            defValue: user?.github,
+        },
     ]
 
     const uploadTrigger = () => {
@@ -30,8 +44,17 @@ const UserDetsFrom = ({ user, setFormReveal }) => {
         setPronouns(value);
     }
 
-    const formCloser = () => {
-        setFormReveal(false);
+    const bioLimiter = (e) => {
+        let bio = e.target.value;
+
+        if (bio.length > 150) {
+            bio = bio.slice(0, 150);
+            e.target.value = bio;
+            setBioCharCount(bio.length);
+            return;
+        }
+
+        setBioCharCount(bio.length);
     }
 
     useEffect(() => {
@@ -55,6 +78,7 @@ const UserDetsFrom = ({ user, setFormReveal }) => {
                 </div>
                 <input ref={imgRef} type="file" accept="image/*" />
             </div>
+
             <form className="user-descrition-form w-full mt-5">
                 <div className="user-name-inp-container">
                     <label className='text-[0.9rem] text-gray-500' htmlFor="user-name-inp">Name</label>
@@ -74,37 +98,21 @@ const UserDetsFrom = ({ user, setFormReveal }) => {
 
                 <div className="user-bio-inp-container mt-1 relative">
                     <label className='text-[0.9rem] text-gray-500' htmlFor="user-bio-inp">Bio</label>
-                    <textarea type="text" className="user-bio-inp third-bg text-[0.9rem] rounded w-full py-1 px-3 outline-0 border border-gray-700 resize-none placeholder:text-gray-500" defaultValue={user.bio} rows={5} id='user-bio-inp' placeholder='Write about you...' />
-                    <div className='absolute bottom-2 right-2'>{`${bioCharCount}/150`}</div>
+                    <textarea onChange={bioLimiter} type="text" className="user-bio-inp third-bg text-[0.9rem] rounded w-full py-1 px-3 outline-0 border border-gray-700 resize-none placeholder:text-gray-500" defaultValue={user.bio} rows={5} id='user-bio-inp' placeholder='Write about you...' />
+                    <div className='absolute bottom-2 right-2 text-[0.9rem] text-gray-500'>{`${bioCharCount}/150`}</div>
                 </div>
+
                 {
                     linkInputs.map(input => (
-                        <div className="user-email-inp-container mt-2">
-                            <label className='text-[0.9rem] text-gray-500' htmlFor="user-email-inp">Email</label>
-                            <input type="text" className="user-email-inp third-bg text-[0.9rem] rounded w-full py-1 px-3 outline-0 border border-gray-700" defaultValue={user.email} id='user-email-inp' />
+                        <div key={`${name}-key`} className={`user-${input.name}-inp-container mt-2`}>
+                            <label className='text-[0.9rem] text-gray-500 capitalize' htmlFor={`user-${input.name}-inp`}>{input.name}</label>
+                            <input type={input.type} className={`user-${input.name}-inp third-bg text-[0.9rem] rounded w-full py-1 px-3 outline-0 border border-gray-700`} defaultValue={input.defValue} id={`user-${input.name}-inp`} />
                         </div>
                     ))
                 }
-                
-                {/* <div className="user-email-inp-container mt-2">
-                    <label className='text-[0.9rem] text-gray-500' htmlFor="user-email-inp">Email</label>
-                    <input type="text" className="user-email-inp third-bg text-[0.9rem] rounded w-full py-1 px-3 outline-0 border border-gray-700" defaultValue={user.email} id='user-email-inp' />
-                </div>
-                <div className="user-website-inp-container mt-1">
-                    <label className='text-[0.9rem] text-gray-500' htmlFor="user-website-inp">Website</label>
-                    <input type="text" className="user-website-inp third-bg text-[0.9rem] rounded w-full py-1 px-3 outline-0 border border-gray-700" defaultValue={user.website} id='user-website-inp' />
-                </div>
-                <div className="user-linkedin-inp-container mt-1">
-                    <label className='text-[0.9rem] text-gray-500' htmlFor="user-linkedin-inp">Linkedin</label>
-                    <input type="text" className="user-linkedin-inp third-bg text-[0.9rem] rounded w-full py-1 px-3 outline-0 border border-gray-700" defaultValue={user.linkedin} id='user-linkedin-inp' />
-                </div>
-                <div className="user-github-inp-container mt-1">
-                    <label className='text-[0.9rem] text-gray-500' htmlFor="user-github-inp">GitHub</label>
-                    <input type="text" className="user-github-inp third-bg text-[0.9rem] rounded w-full py-1 px-3 outline-0 border border-gray-700" defaultValue={user.github} id='user-github-inp' />
-                </div> */}
 
                 <div className="user-dets-form-btn-container w-full flex gap-2" id='user-dets-form-btn-container'>
-                    <button type='button' onClick={formCloser} className="cancel-btn third-bg border border-gray-700 rounded px-5 py-1 text-[0.9rem] font-medium mt-3 cursor-pointer">Cancel</button>
+                    <button type='button' onClick={() => setFormReveal(false)} className="cancel-btn third-bg border border-gray-700 rounded px-5 py-1 text-[0.9rem] font-medium mt-3 cursor-pointer">Cancel</button>
                     <button type='submit' className="save-btn bg-green-600 rounded px-5 py-1 text-[0.9rem] font-medium mt-3 cursor-pointer">Save</button>
                 </div>
             </form>
