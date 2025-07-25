@@ -21,6 +21,7 @@ html, body{
     /* display: none; */
     background: #151B23;
     width: 10px;
+    border-radius: 50px;
 }
 *::-webkit-scrollbar-thumb{
     background: #262C36;
@@ -48,6 +49,6 @@ html, body{
     background-position: 50% 80%;
     background-repeat: no-repeat;
 }
-.signup-form-outer::-webkit-scrollbar{
+.slim-scrollbar::-webkit-scrollbar{
     width: 7px;
 }

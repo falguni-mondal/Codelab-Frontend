@@ -132,7 +132,7 @@ const Signup = ({ setLoading }) => {
     }
 
     return (
-        <div className="signup-form-outer w-1/2 h-full overflow-y-scroll relative p-10 pt-0 flex flex-col items-center gap-12">
+        <div className="signup-form-outer w-1/2 h-full overflow-y-scroll slim-scrollbar relative p-10 pt-0 flex flex-col items-center gap-12">
             <div className="signin-option w-full sticky top-0 right-0 pt-10 pb-3 flex justify-end sec-bg gap-2 text-[0.9rem] text-gray-500">
                 Already have an account <Link to="/auth/signin" className='text-[#dedede] underline flex items-center gap-1'>Sign in <FaArrowRightLong className='text-[0.6rem]' /></Link>
             </div>
@@ -147,7 +147,7 @@ const Signup = ({ setLoading }) => {
                     </div>
                     <div className="input-container w-full flex flex-col relative">
                         <label htmlFor="signup-name-input" className="input-label">Pronouns</label>
-                        <div onClick={() => setShowPronouns(prev => !prev)} className='py-1.5 px-2 w-1/3 rounded-md border border-gray-700 flex gap-1 items-center justify-between third-bg cursor-default text-gray-400 text-[0.95rem] select-none'>{pronouns ? pronouns : "Select Pronouns"} <IoIosArrowDown/></div>
+                        <div onClick={() => setShowPronouns(prev => !prev)} className='py-1.5 px-2 w-1/3 rounded-md border border-gray-700 flex gap-1 items-center justify-between third-bg cursor-pointer text-gray-400 text-[0.95rem] select-none'>{pronouns ? pronouns : "Select Pronouns"} <IoIosArrowDown/></div>
 
                         <ul className={`pronouns-option-container ${showPronouns ? "scale-100" : "scale-0"} absolute top-[102%] left-0 rounded-md backdrop-blur-md overflow-hidden transition-all duration-200 border border-gray-900`}>
                             <li onClick={() => pronounsSetter("he/him")} className='px-3 pr-10 py-1 hover:bg-zinc-400 hover:text-black transition-all duration-200 cursor-pointer'>he/him</li>
