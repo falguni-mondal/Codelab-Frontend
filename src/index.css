@@ -26,6 +26,7 @@ html, body{
 *::-webkit-scrollbar-thumb{
     background: #262C36;
     border-radius: 50px;
+    cursor: pointer;
 }
 .prime-bg{
     background: #010409;
@@ -51,4 +52,5 @@ html, body{
 }
 .slim-scrollbar::-webkit-scrollbar{
     width: 7px;
+    cursor: default;
 }

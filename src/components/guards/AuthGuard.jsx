@@ -11,7 +11,7 @@ const AuthGuard = () => {
         if (status === "failed" || (!user && status === "success")) {
             return navigate("/auth/signin");
         }
-        if(user && !user.isVerified){
+        if (user && !user.isVerified) {
             return navigate("/user/verify");
         }
     }, [navigate, user, status])

@@ -79,7 +79,7 @@ const Signin = ({ setLoading }) => {
 
         } catch (err) {
             setLoading(prev => !prev);
-            toast.error(`${err.response.data}`, {
+            toast.error(`${err.response?.data}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: true,
