@@ -15,7 +15,7 @@ const App = () => {
 
 
   return (
-    <div className='h-full flex flex-col items-center text-[#dedede] prime-bg'>
+    <div className='h-full flex flex-col items-center text-[#dedede] prime-bg relative'>
       <Navbar />
       <Router />
       <ToastContainer

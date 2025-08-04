@@ -78,19 +78,19 @@ const UserDetsFrom = ({ user, setFormReveal, userFetcher, setLoading }) => {
     useEffect(() => {
         if (user) {
             setPronouns(user.pronouns);
-            setImage(user.image);
         }
     }, [user]);
 
     const submitHandler = async (data) => {
-        try {
-            setLoading(true);
-
+        try {            
             const { name, bio, email, website, linkedin, github } = data;
-            if (!image && pronouns === user.pronouns && name === user.name && bio === user.bio && email === user.email && website === user.website && linkedin === user.linkedin && github === user.github) {
+            const hasChanges = (image || (pronouns !== user.pronouns) || (name !== user.name) || (bio !== user.bio) || (email !== user.email) || (website !== user.website) || (linkedin !== user.linkedin) || (github !== user.github));
+
+            if (!hasChanges) {
                 setFormReveal(false);
                 return;
             }
+            setLoading(true);
 
             const formData = new FormData();
             if (image) formData.append("image", image);
@@ -116,7 +116,7 @@ const UserDetsFrom = ({ user, setFormReveal, userFetcher, setLoading }) => {
         user &&
         <div className='user-dets-form-section w-full h-full overflow-y-auto pr-5 slim-scrollbar' id='user-dets-form-section'>
             <div className="user-image-form w-full aspect-square rounded-full overflow-hidden border-2 border-gray-800 relative">
-                <img className="w-full h-full object-cover" src={previewURL || image || userAvatar(user.username)} alt={`${user.username}_image`} />
+                <img className="w-full h-full object-cover" src={previewURL || user.image || userAvatar(user.username)} alt={`${user.username}_image`} />
 
                 <div onClick={uploadTrigger} className='user-image-overlay bg-[#e4ebff18] absolute w-full h-full rounded-full top-0 left-0 z-10 flex flex-col justify-center items-center cursor-pointer'>
                     <IoCameraOutline className='text-[4rem]' />

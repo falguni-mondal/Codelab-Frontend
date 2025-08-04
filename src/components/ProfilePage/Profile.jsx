@@ -10,9 +10,11 @@ import Loading from '../../utils/components/Loading';
 import UserDetails from './UserDets/UserDetails';
 import UserDetsForm from './UserDets/UserDetsFrom';
 import { Bounce, toast } from 'react-toastify';
+import UserWorks from './UserWorks/UserWorks';
 
 const Profile = () => {
   const [user, setUser] = useState(null);
+  const [works, setWorks] = useState(null);
   const [formReveal, setFormReveal] = useState(false);
   const[loading, setLoading] = useState(false);
   const { id } = useParams();
@@ -24,7 +26,10 @@ const Profile = () => {
       const res = await axios.post(`${baseUrl}/api/user/profile`, { id }, { withCredentials: true });
       const userData = res.data;
       if (userData) {
-        setUser(userData);        
+        setUser(userData);
+        const projects = userData.projects;
+        const snippets = userData.snippets;
+        setWorks({projects, snippets}); 
       }
 
     } catch (err) {
@@ -57,9 +62,9 @@ const Profile = () => {
   
 
   return (
-    (user || !loading) ?
-      <div className='w-full h-full flex gap-3 p-10 overflow-hidden' id='profile-page'>
-        <section className='w-[25%]' id="user-dets-sectn">
+    (user && !loading) ?
+      <div className='w-full h-[90%] flex gap-10 p-10 relative' id='profile-page'>
+        <section className='w-[25%] h-full' id="user-dets-sectn">
           {
             formReveal ?
               <UserDetsForm user={user} setFormReveal={setFormReveal} userFetcher={userFetcher} setLoading={setLoading}/>
@@ -67,8 +72,8 @@ const Profile = () => {
               <UserDetails user={user} setFormReveal={setFormReveal} />
           }
         </section>
-        <section className='w-[75%]' id="user-records-sectn">
-
+        <section className='w-[75%] h-full' id="user-works-sectn">
+          <UserWorks works={works} />
         </section>
       </div>
       :

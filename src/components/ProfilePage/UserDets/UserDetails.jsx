@@ -23,20 +23,24 @@ const UserDetails = ({ user, setFormReveal }) => {
                 </div>
                 {
                     user.bio &&
-                    <div className="user-bio leading-tight mb-3">{user.bio}</div>
+                    <div className="user-bio leading-tight mb-3 whitespace-pre-wrap">{user.bio}</div>
                 }
 
                 <div className="user-followers-followings text-[0.9rem] text-gray-400 font-medium mb-3"><span className="text-white">{user.followers.length}</span> followers • <span className="text-white">{user.followings.length}</span> following</div>
+
+                {user.website && <div className="website-btn w-full text-gray-300 bg-blue-900 rounded overflow-hidden mb-1">
+                    <a className="website-link flex justify-center items-center gap-1 py-1 text-[0.9rem] font-medium" href={user.website} target="_blank">Website <IoIosLink /></a>
+                </div>}
 
                 <ul className="user-links text-[0.9rem] text-white">
                     <li className="user-mail flex items-center gap-1.5 font-medium mb-1">
                         <IoMailOutline className="text-gray-400 text-[1.2rem]" />
                         <p>{user.email}</p>
                     </li>
-                    {user.website && <li className="user-website flex items-center gap-1.5 font-medium mb-1">
+                    {/* {user.website && <li className="user-website flex items-center gap-1.5 font-medium mb-1">
                         <IoIosLink className="text-gray-400 text-[1.2rem]" />
                         <a href={user.website} target="_blank">{user.website}</a>
-                    </li>}
+                    </li>} */}
                     {user.linkedin && <li className="user-linkedin flex items-center gap-1.5 font-medium mb-1">
                         <IoLogoLinkedin className="text-gray-400 text-[1.2rem]" />
                         <a href={user.linkedin} target="_blank">{user.linkedin}</a>
