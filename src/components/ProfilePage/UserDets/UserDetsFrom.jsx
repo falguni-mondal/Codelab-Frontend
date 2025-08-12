@@ -7,6 +7,8 @@ import { IoIosArrowDown } from "react-icons/io";
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { baseUrl } from '../../../utils/functions/keys';
+import { fetchUser } from '../../../redux/features/authSlice';
+import { useDispatch } from 'react-redux';
 
 const UserDetsFrom = ({ user, setFormReveal, userFetcher, setLoading }) => {
     const uploadRef = useRef();
@@ -16,6 +18,7 @@ const UserDetsFrom = ({ user, setFormReveal, userFetcher, setLoading }) => {
     const [pronouns, setPronouns] = useState("");
     const [bioCharCount, setBioCharCount] = useState(0);
     const { register, handleSubmit } = useForm();
+    const dispatch = useDispatch();
 
     const linkInputs = [
         {
@@ -107,6 +110,7 @@ const UserDetsFrom = ({ user, setFormReveal, userFetcher, setLoading }) => {
             await userFetcher();
             setLoading(false);
             setFormReveal(false);
+            dispatch(fetchUser());
         } catch (err) {
             console.log(err);
         }

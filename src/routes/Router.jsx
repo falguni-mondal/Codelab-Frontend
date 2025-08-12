@@ -32,6 +32,7 @@ const Router = () => {
                 <Route path="/user/:id/profile" element={<Profile />} />
                 <Route path="/user/project/create" element={<ProjectForm />} />
                 <Route path="/user/snippet/create" element={<SnippetForm />} />
+                <Route path="/editor/:id" element={<Editor />} />
             </Route>
 
             {/* VERIFICATION */}
