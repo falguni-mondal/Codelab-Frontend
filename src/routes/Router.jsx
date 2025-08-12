@@ -10,6 +10,7 @@ import EmailVerifier from "../components/verification/EmailVerifier";
 import PageErr from "../utils/components/PageErr";
 import ProjectForm from "../components/DevForms/ProjectForm";
 import SnippetForm from "../components/DevForms/SnippetForm";
+import CodeEditor from "../components/Dev/CodeEditor";
 
 const Router = () => {
 
@@ -32,7 +33,7 @@ const Router = () => {
                 <Route path="/user/:id/profile" element={<Profile />} />
                 <Route path="/user/project/create" element={<ProjectForm />} />
                 <Route path="/user/snippet/create" element={<SnippetForm />} />
-                <Route path="/editor/:id" element={<Editor />} />
+                <Route path="/editor/:id" element={<CodeEditor />} />
             </Route>
 
             {/* VERIFICATION */}
