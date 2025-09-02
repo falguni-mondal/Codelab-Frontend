@@ -38,7 +38,7 @@ const usernameChecker = (value, setUnameErr) => {
         });
         setUnameErr(res.data.available ? "Available!" : "Unavailable!");
       } catch (err) {
-        toast.error("Network Error!", {
+        toast.error("Server Error!", {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: true,
