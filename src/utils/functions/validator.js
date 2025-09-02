@@ -1,4 +1,4 @@
-import { toast } from "react-toastify";
+import { Bounce, toast } from "react-toastify";
 import axios from "axios";
 import { baseUrl } from "./keys";
 import { passwordRegex, unameRegex } from "./regex";
